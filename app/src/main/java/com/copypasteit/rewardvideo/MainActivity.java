@@ -8,12 +8,18 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 
 public class MainActivity extends AppCompatActivity implements RewardedVideoAdListener {
+
+
+
+    //STEP-1 for InterstitialAd=====================================
+    public  InterstitialAd interstitialAd;
 
 
     private RewardedVideoAd mRewardedVideoAd ;
@@ -27,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
         mRewardedVideoAd .setRewardedVideoAdListener(this);
         loadRewardedVideoAd();
 
-        //When button click Ads id show================================
+        //When button click Ads id show===============================
         //============================================================
         Button button=(Button)findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -40,10 +46,40 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
         });
 
 
+
+        //STEP - 2 Intertatial ads =======================================
+        //add below 3 lines with rewordvideo ads
+        interstitialAd = new InterstitialAd(this);
+        //Interstitial ads unit add
+        interstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        loadInterstitialAd();
+
+        //ENDSTEP - 2 Intertatial ads ====================================
+
     }
 
-    //user define method for loadRewardedVideoAd load ads=========================
-    //========================================================
+    //STEP - 3 InterstitialAd load ads ===================================
+    //====================================================================
+    private void loadInterstitialAd() {
+        //ads unit id
+        interstitialAd.loadAd(new AdRequest.Builder().build());
+    }
+    //ENDSTEP - 3 InterstitialAd load ads =================================
+
+    //STEP-4 for InterstitialAd=====================================
+    @Override
+    public void onBackPressed() {
+
+        if (interstitialAd.isLoaded()) {
+            interstitialAd.show();
+        }
+        super.onBackPressed();
+    }
+    //ENDSTEP-4 for InterstitialAd=======================================
+
+
+    //user define method for loadRewardedVideoAd load ads=================
+    //===================================================================
     private void loadRewardedVideoAd() {
 
         //ads unit id
